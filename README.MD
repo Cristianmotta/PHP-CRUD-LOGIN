@@ -98,6 +98,7 @@ Aplicar conocimientos de desarrollo web backend con PHP, estructuración de proy
 
 ## 👨‍💻 Autor
 
-Proyecto desarrollado como parte de un plan de mejoramiento académico enfocado en el desarrollo de aplicaciones web.
+Proyecto desarrollado en un entorno académico enfocado en el desarrollo de aplicaciones web.
 
+Atte: CMT-Disigner
 ---

@@ -11,7 +11,8 @@ if (!isset($usuarios)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Usuarios</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    
     <style>
         body{
             background: linear-gradient(135deg, #1D4ed8, #0d9488);
@@ -35,7 +36,7 @@ if (!isset($usuarios)) {
 
     <a href="../view/crear-usuario.php" class="btn btn-success mb-3">+ Crear usuarios</a>
 
-    <table class="table table-bordered table-hover shadow">
+    <table id="tablaUsuarios" class="table table-striped table-hover shadow">
 
         <thead class="table-dark">
             <tr>
@@ -65,44 +66,56 @@ if (!isset($usuarios)) {
     </table>
 
     <div class="container-fluid">
-        <a href="../controller/LogoutController.php" class="btn btn-danger btn-sm">Volver</a>
+        <a href="../view/dashboard.php" class="btn btn-danger btn-sm">Volver</a>
     </div>
 
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
-<script>
-    function confirmarEliminar(id){
-        Swal.fire({
-            title: '¿Estas seguro?',
-            text: "No podras recuperar este usuario",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Sí, eliminar',
-            cancelButtonText: 'Cancelar'
-        }).then((result)=> {
-            if(result.isConfirmed){
-                window.location.href = "../controller/EliminarUsuarioController.php?id=" + id;
+    <script>
+        $(document).ready(function() {
+            $('#tablaUsuarios').DataTable({
+                    languaje: {
+                    url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
+                    }
+                });
+            });
+
+            function confirmarEliminar(id){
+                Swal.fire({
+                    title: '¿Estas seguro?',
+                    text: "No podras recuperar este usuario",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Sí, eliminar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result)=> {
+                    if(result.isConfirmed){
+                        window.location.href = "../controller/EliminarUsuarioController.php?id=" + id;
+                    }
+                });
+
+                return false;
             }
-        });
+    </script>
 
-        return false;
-    }
-</script>
-
-<?php if (isset($_GET['eliminado'])): ?>
-<script>
-Swal.fire({
-    icon: 'success',
-    title: 'Eliminado',
-    text: 'Usuario eliminado correctamente',
-    timer: 2000,
-    showConfirmButton: false
-});
-</script>
-<?php endif; ?>
+    <?php if (isset($_GET['eliminado'])): ?>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Eliminado',
+                text: 'Usuario eliminado correctamente',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        </script>
+    <?php endif; ?>
 </body>
 </html>

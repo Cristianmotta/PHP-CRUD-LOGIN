@@ -1,104 +1,258 @@
-# 🧾 CRUD de Usuarios en PHP (MVC)
+# PHP CRUD LOGIN
 
-## 📌 Descripción del proyecto
+## Descripción del Proyecto
 
-Este proyecto consiste en el desarrollo de un sistema web tipo CRUD (Crear, Leer, Actualizar y Eliminar) utilizando PHP con arquitectura MVC, conexión a base de datos MySQL mediante PDO y buenas prácticas de seguridad.
+Este proyecto es un sistema CRUD desarrollado en PHP con arquitectura organizada por módulos, enfocado en la gestión de usuarios, categorías y productos.
 
-El sistema permite la gestión de usuarios a través de un panel administrativo, incluyendo autenticación de usuarios, manejo de sesiones y una interfaz moderna con Bootstrap.
+El sistema permite:
 
----
+* Registro de usuarios
+* Inicio de sesión seguro
+* Dashboard principal
+* CRUD completo de categorías
+* CRUD completo de productos
+* Búsqueda de productos por nombre y precio
+* Estadísticas de productos mediante gráficas
+* Validaciones visuales con alertas
+* Confirmaciones de eliminación con JavaScript
 
-## 🚀 Funcionalidades principales
-
-* 🔐 Inicio de sesión seguro (Login)
-* 👤 Registro de usuarios
-* 📋 Listado de usuarios
-* ✏️ Edición de usuarios
-* 🗑️ Eliminación de usuarios con confirmación
-* 🔒 Protección de rutas mediante sesiones
-* 🎨 Interfaz moderna con Bootstrap
-* 📊 Tabla dinámica con DataTables
-* 📈 Visualización de datos con gráficas (Chart.js)
+El objetivo principal fue construir una aplicación funcional, limpia y profesional utilizando buenas prácticas en PHP y MySQL.
 
 ---
 
-## 🧱 Tecnologías utilizadas
+## Tecnologías Utilizadas
 
-* PHP (POO)
-* MySQL
-* PDO (conexión segura a base de datos)
-* HTML5 / CSS3
+### Backend
+
+* PHP (Programación Orientada a Objetos)
+* MySQL / MariaDB
+* PDO para conexión segura a base de datos
+* Arquitectura MVC básica
+
+### Frontend
+
+* HTML5
+* CSS3
 * JavaScript
-* Bootstrap 5
-* DataTables
-* Chart.js
-* SweetAlert2
+* Bootstrap 5.3
+
+### Diseño Visual
+
+El diseño visual de la plataforma fue desarrollado utilizando:
+
+* Bootstrap 5.3
+* JavaScript
+* CSS personalizado
+
+aplicando una interfaz moderna, limpia e innovadora, inspirada y mejorada con apoyo visual de Gemini para lograr una experiencia más profesional, intuitiva y atractiva para el usuario.
 
 ---
 
-## 📁 Estructura del proyecto
+## Estructura del Proyecto
 
-```
-crud_project/
+```text
+PHP-CRUD-LOGIN/
 │
-├── config/         # Configuración de conexión a base de datos
-├── model/          # Lógica de datos (clases)
-├── controller/     # Controladores (procesamiento)
-├── view/           # Vistas (interfaz)
-├── public/         # Recursos públicos y base de datos
-├── reports/        # Generación de reportes (PDF)
-├── uploads/        # Archivos subidos
-└── index.php       # Punto de entrada
+├── config/
+│   └── conexion.php
+│
+├── controller/
+│   ├── LoginController.php
+│   ├── UsuarioController.php
+│   ├── CategoriaController.php
+│   └── ProductoController.php
+│
+├── model/
+│   ├── usuario.php
+│   ├── categoria.php
+│   └── producto.php
+│
+├── view/
+│   ├── login.php
+│   ├── registro.php
+│   ├── dashboard.php
+│   ├── crear-categoria.php
+│   ├── crear-producto.php
+│   ├── listar-producto.php
+│   └── editar-producto.php
+│
+└── public/
+    └── plancrud.sql
 ```
 
 ---
 
-## ⚙️ Instalación y uso
+## Explicación del Código PHP
 
-1. Clonar o descargar el proyecto
-2. Colocar la carpeta en:
+### Conexión a Base de Datos
 
-```
-C:\xampp\htdocs\
-```
+El archivo `conexion.php` implementa el patrón Singleton para evitar múltiples conexiones innecesarias a la base de datos.
 
-3. Iniciar Apache y MySQL desde XAMPP
-4. Importar la base de datos en phpMyAdmin
-5. Acceder desde el navegador:
+Esto permite:
 
-```
-http://localhost/crud_project
-```
+* una sola conexión activa
+* mejor rendimiento
+* mayor seguridad
+* uso de PDO con manejo de errores
 
 ---
 
-## 🗄️ Base de datos
+### Login de Usuario
 
-La base de datos utilizada es `planCrud`, la cual contiene la tabla `usuarios` con los campos necesarios para el funcionamiento del sistema.
+El sistema valida:
 
-👉 **Nota:** En la carpeta `public` se encuentra la base de datos lista para importar y probar el sistema en XAMPP.
+* correo
+* contraseña encriptada con `password_hash()`
+
+y verifica el acceso mediante:
+
+```php
+password_verify()
+```
+
+Si las credenciales son correctas:
+
+* se crea la sesión
+* se redirige al dashboard
+
+Si son incorrectas:
+
+* aparece una alerta visual con barra de tiempo automática
 
 ---
 
-## 🔐 Seguridad implementada
+### Registro de Usuario
 
-* Uso de `password_hash()` y `password_verify()`
-* Prepared Statements (PDO)
-* Validación de datos
-* Manejo seguro de sesiones
-* Protección de rutas
+El usuario puede crear una cuenta desde `registro.php`.
+
+Se valida:
+
+* nombre
+* correo único
+* contraseña
+* fecha de nacimiento
+
+Si el correo ya existe:
+
+* se captura el error SQL
+* se muestra un mensaje amigable al usuario
 
 ---
 
-## 🎯 Objetivo del proyecto
+### CRUD de Categorías
 
-Aplicar conocimientos de desarrollo web backend con PHP, estructuración de proyectos con MVC, conexión a bases de datos y buenas prácticas de seguridad, logrando un sistema funcional y escalable.
+Permite:
+
+* crear categoría
+* listar categorías
+* eliminar categoría
+
+Si una categoría tiene productos relacionados:
+
+* no puede eliminarse
+* aparece una alerta explicativa usando SweetAlert
+
+Esto protege la integridad referencial de la base de datos.
 
 ---
 
-## 👨‍💻 Autor
+### CRUD de Productos
 
-Proyecto desarrollado en un entorno académico enfocado en el desarrollo de aplicaciones web.
+Permite:
+
+* crear producto
+* listar productos
+* editar producto
+* eliminar producto
+
+Cada producto está relacionado con una categoría mediante clave foránea:
+
+```sql
+id_categoria
+```
+
+El sistema carga automáticamente la categoría actual al editar.
+
+---
+
+### Búsqueda de Productos
+
+El usuario puede buscar productos por:
+
+* nombre
+* precio aproximado
+
+Si no existe coincidencia:
+
+* aparece un mensaje informativo
+
+Esto mejora la usabilidad del sistema.
+
+---
+
+### Estadísticas de Productos
+
+Se implementó una gráfica usando Chart.js para visualizar:
+
+* productos registrados
+* precios
+* distribución visual de información
+
+Esto permite una mejor interpretación de los datos.
+
+---
+
+### Alertas y Confirmaciones
+
+Se utilizaron:
+
+* SweetAlert2
+* JavaScript
+
+para:
+
+* confirmar eliminación
+* mostrar errores
+* mensajes de éxito
+* validaciones visuales
+* alertas temporales con barra de progreso
+
+Esto mejora considerablemente la experiencia del usuario.
+
+---
+
+## Base de Datos
+
+La base de datos utilizada se encuentra dentro de la carpeta:
+
+```text
+public/
+```
+
+Archivo:
+
+```text
+plancrud.sql
+```
+
+Este archivo puede importarse directamente en XAMPP (phpMyAdmin) para probar el proyecto completo.
+
+---
+
+## Autor
+
+Proyecto desarrollo académico enfocado en:
+
+* PHP
+* MySQL
+* Bootstrap
+* JavaScript
+* diseño de interfaces modernas
+* buenas prácticas de desarrollo web
+
+con una estructura profesional y funcional orientada a proyectos reales.
 
 Atte: CMT-Disigner
----
+
+## 
+

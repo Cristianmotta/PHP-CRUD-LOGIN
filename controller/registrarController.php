@@ -11,18 +11,17 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
     $fechNac = $_POST['fech_nac'] ?? '';
 
-    if(!$nombre || !$correo || empty($password) || empty($fechNac)){
-        echo "Datos Invalidos";
-        exit;
-    }
-    
-    $usuario = new Usuario();
+    try {
+        $usuario = new usuario();
+        $usuario->insertar($nombre, $correo, $password, $fechNac);
 
-    if ($usuario->insertar($nombre, $correo, $password, $fechNac)){
-        echo "Usuario creado correctamente";
-        header("Location: ../view/dashboard.php");
-    } else{
-        echo "Error al crear usuario";
+        header("Location: ../view/login.php?registro=1");
+        exit;
+
+    } catch (PDOException $e) {
+
+        header("Location: ../view/registrar.php?error=1");
+        exit;
     }
 
 }

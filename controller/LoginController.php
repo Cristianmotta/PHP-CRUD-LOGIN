@@ -23,7 +23,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         header("Location: ../view/dashboard.php");
         exit;
     } else {
-        echo "Correo o Contraseña incorrectos";
+        header("Location: ../view/login.php?error=1");
+        exit;
     }
 }
 

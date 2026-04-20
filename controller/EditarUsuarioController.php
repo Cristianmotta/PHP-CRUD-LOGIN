@@ -31,7 +31,7 @@ if(!$id){
 
 $data = $usuario->obtenerPorId($id);
 
-require_once __DIR__ . '/../view/dashboard.php';
+require_once __DIR__ . '/../view/editar-usuario.php';
 
 
 

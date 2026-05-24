@@ -3,7 +3,7 @@ require_once 'config/conexion.php';
 
 try{
     $db = conexion::getInstance()->getConexion();
-    echo "conexion existosa";
+    header("Location: /PHP-CRUD-LOGIN/view/login.php");
 } catch (Exception $e){
     echo "Error:  ".$e->getMessage();
 }

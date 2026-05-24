@@ -180,9 +180,32 @@
                     </div>
                 <?php endif; ?>
 
+                <?php if (isset($_GET['password'])): ?>
+                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+                    <script>
+                        Swal.fire({
+                            toast: true,
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Contraseña actualizada correctamente',
+                            showConfirmButton: false,
+                            timer: 5000,
+                            timerProgressBar: true
+                        });
+                    </script>
+
+                <?php endif; ?>
+
                 <button class="btn btn-ingresar w-100 mb-4" type="submit">
                     Ingresar al Sistema
                 </button>
+
+                 <div class="text-center mt-3">
+                    <a href="recuperar.php" class="text-decoration-none">
+                        ¿olvidaste tu contraseña?
+                    </a>
+                </div>
 
                 <div class="text-center">
                     <span class="text-muted small">¿No tienes una cuenta?</span><br>
@@ -193,6 +216,8 @@
             </form>
         </div>
     </div>
+
+    
 
     <script>
         // Función genérica para ocultar mensajes
